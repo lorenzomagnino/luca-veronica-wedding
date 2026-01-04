@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luca & Veronica | The Wedding</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #F9F7F2; /* Creamy White */
+            --text-color: #4A4A4A; /* Charcoal */
+            --accent-color: #D4AF37; /* Muted Gold */
+            --secondary-bg: #F0EBE0; /* Darker Cream */
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Montserrat', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-serif);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- 3D Canvas Background --- */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+            /* No opacity needed here, we handle transparency in Three.js for a cleaner look */
+            pointer-events: none;
+        }
+
+        /* --- Layout & Typography --- */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1, h2, h3 {
+            font-weight: 300;
+            color: var(--text-color);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        p {
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            color: #666;
+        }
+
+        .section {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 100vh;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        .hero h1 span {
+            display: block;
+            font-size: 1.5rem;
+            font-family: var(--font-sans);
+            margin: 1rem 0;
+            color: var(--accent-color);
+            letter-spacing: 0.3em;
+        }
+
+        .hero .date {
+            font-family: var(--font-sans);
+            font-size: 1.1rem;
+            margin-top: 2rem;
+            border-top: 1px solid var(--accent-color);
+            border-bottom: 1px solid var(--accent-color);
+            padding: 10px 20px;
+            display: inline-block;
+        }
+
+        /* --- Story Section --- */
+        .story-content {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 3rem;
+            border-radius: 2px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            backdrop-filter: blur(5px);
+            max-width: 600px;
+        }
+
+        .story h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+            text-transform: none;
+        }
+
+        /* --- Details & Locations --- */
+        .locations-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            width: 100%;
+            margin-top: 3rem;
+        }
+
+        .location-card {
+            background: white;
+            padding: 2rem;
+            border: 1px solid var(--secondary-bg);
+            transition: transform 0.3s ease;
+        }
+
+        .location-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+        }
+
+        .location-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--secondary-bg);
+            padding-bottom: 1rem;
+        }
+
+        .time {
+            font-family: var(--font-sans);
+            font-weight: 600;
+            color: var(--accent-color);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Map Placeholder Style */
+        .map-frame {
+            width: 100%;
+            height: 200px;
+            background-color: var(--secondary-bg);
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            border: none;
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.8rem;
+            font-family: var(--font-sans);
+            opacity: 0.5;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .locations-grid { grid-template-columns: 1fr; }
+            .section { min-height: auto; padding: 6rem 0; }
+        }
+        
+        /* Scroll Down Indicator */
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            cursor: pointer;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
+            40% {transform: translateX(-50%) translateY(-10px);}
+            60% {transform: translateX(-50%) translateY(-5px);}
+        }
+    </style>
+</head>
+<body>
+
+    <div id="canvas-container"></div>
+
+    <div class="container">
+        
+        <section class="section hero visible">
+            <h1>
+                Luca <span style="display:inline; font-family:inherit; color:inherit; font-size:inherit; margin:0;">&</span> Veronica
+                <span>THE WEDDING</span>
+            </h1>
+            <div class="date">SEPTEMBER 14, 2024</div>
+            <div class="scroll-down">↓</div>
+        </section>
+
+        <section class="section story">
+            <div class="story-content">
+                <h2>Our Story</h2>
+                <p>
+                    It started with a chance encounter in a crowded café in Florence. Luca dropped his sketchbook; Veronica picked it up. What began as a conversation about art turned into a journey of a lifetime.
+                </p>
+                <p>
+                    Five years, countless trains, and a thousand espressos later, we are ready to turn the page to our next chapter. We invite you to join us where the hills meet the sky to celebrate love, friendship, and the future.
+                </p>
+            </div>
+        </section>
+
+        <section class="section details">
+            <h2>The Celebration</h2>
+            <p>Please join us for the ceremony and reception.</p>
+            
+            <div class="locations-grid">
+                <div class="location-card">
+                    <h3>The Ceremony</h3>
+                    <span class="time">11:00 AM</span>
+                    <p>Basilica di San Miniato</p>
+                    <p>Via delle Porte Sante, 34<br>Florence, Italy</p>
+                    <iframe 
+                        class="map-frame"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2881.9360274776856!2d11.2625!3d43.7595!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x132a540d277d3291%3A0x7c49337035656517!2sBasilica%20di%20San%20Miniato%20al%20Monte!5e0!3m2!1sen!2sit!4v1620000000000!5m2!1sen!2sit" 
+                        loading="lazy">
+                    </iframe>
+                </div>
+
+                <div class="location-card">
+                    <h3>The Reception</h3>
+                    <span class="time">05:00 PM</span>
+                    <p>Castello di Vincigliata</p>
+                    <p>Via Vincigliata, 21<br>Fiesole, Italy</p>
+                    <iframe 
+                        class="map-frame"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2880.605483!2d11.31!3d43.78!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x132a546055555555%3A0x123456789!2sCastello%20di%20Vincigliata!5e0!3m2!1sen!2sit!4v1620000000000!5m2!1sen!2sit" 
+                        loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+        </section>
+        
+        <footer>
+            <p>With love, Luca & Veronica</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // --- 3D SCENE SETUP ---
+        const initThreeJS = () => {
+            const container = document.getElementById('canvas-container');
+            const scene = new THREE.Scene();
+            
+            // Background Color matching the CSS var
+            scene.background = new THREE.Color(0xF9F7F2);
+            // Fog to fade particles into the background
+            scene.fog = new THREE.FogExp2(0xF9F7F2, 0.05);
+
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            container.appendChild(renderer.domElement);
+
+            // --- OBJECTS ---
+            
+            // 1. The Wireframe Icosahedron (Geometric Sphere)
+            // A simple, modern shape to represent unity and complexity
+            const geometry = new THREE.IcosahedronGeometry(3.5, 1);
+            
+            const material = new THREE.MeshBasicMaterial({ 
+                color: 0xD4AF37, // Gold
+                wireframe: true,
+                transparent: true,
+                opacity: 0.15 // Very subtle, just a hint
+            });
+
+            const sphere = new THREE.Mesh(geometry, material);
+            scene.add(sphere);
+
+            // 2. Floating Particles
+            // Creates a magical, airy atmosphere
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 500;
+            const posArray = new Float32Array(particlesCount * 3);
+
+            for(let i = 0; i < particlesCount * 3; i++) {
+                // Random positions centered around 0, spread out
+                posArray[i] = (Math.random() - 0.5) * 25; 
+            }
+
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.03,
+                color: 0x4A4A4A, // Dark Charcoal particles
+                transparent: true,
+                opacity: 0.4
+            });
+
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+
+            camera.position.z = 6;
+
+            // --- ANIMATION & INTERACTION ---
+
+            let mouseX = 0;
+            let mouseY = 0;
+            let targetX = 0;
+            let targetY = 0;
+
+            const windowHalfX = window.innerWidth / 2;
+            const windowHalfY = window.innerHeight / 2;
+
+            document.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX - windowHalfX) * 0.001;
+                mouseY = (event.clientY - windowHalfY) * 0.001;
+            });
+
+            const animate = () => {
+                requestAnimationFrame(animate);
+
+                targetX = mouseX * 0.5;
+                targetY = mouseY * 0.5;
+
+                // Sphere rotation (constant slow spin + mouse influence)
+                sphere.rotation.y += 0.002;
+                sphere.rotation.x += 0.001;
+                
+                // Tilt sphere gently based on mouse
+                sphere.rotation.y += 0.05 * (targetX - sphere.rotation.y);
+                sphere.rotation.x += 0.05 * (targetY - sphere.rotation.x);
+
+                // Particles rotation (very slow, opposite direction)
+                particlesMesh.rotation.y = -mouseX * 0.2;
+                particlesMesh.rotation.x = -mouseY * 0.2;
+                
+                // Gentle breathing effect for particles
+                const time = Date.now() * 0.0005;
+                particlesMesh.position.y = Math.sin(time) * 0.2;
+
+                renderer.render(scene, camera);
+            };
+
+            animate();
+
+            // Resize Handler
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        };
+
+        // --- SCROLL ANIMATION OBSERVER ---
+        const initScrollObserver = () => {
+            const sections = document.querySelectorAll('.section');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        };
+
+        // Initialize
+        initThreeJS();
+        initScrollObserver();
+
+    </script>
+</body>
+</html>
