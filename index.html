@@ -305,6 +305,130 @@
             border-bottom: 1px solid var(--accent-color);
         }
 
+        .programma-link {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.5rem 1.5rem;
+            background: transparent;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            text-decoration: none;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .programma-link:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: rgba(212, 175, 55, 0.6);
+            color: rgba(212, 175, 55, 0.9);
+        }
+
+        /* --- Modal/Popup --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 3rem;
+            border-radius: 4px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+            color: var(--text-color);
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.3s ease;
+            background: none;
+            border: none;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            color: var(--accent-color);
+        }
+
+        .modal h3 {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 1rem;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+        }
+
+        .schedule-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .schedule-list-item {
+            display: flex;
+            align-items: center;
+            padding: 1.25rem 0;
+            border-bottom: 1px solid rgba(240, 235, 224, 0.6);
+        }
+
+        .schedule-list-item:last-child {
+            border-bottom: none;
+        }
+
+        .schedule-list-time {
+            font-family: var(--font-sans);
+            font-weight: 600;
+            color: var(--accent-color);
+            min-width: 100px;
+            font-size: 0.85rem;
+        }
+
+        .schedule-list-event {
+            font-family: var(--font-serif);
+            color: var(--text-color);
+            font-size: 1rem;
+            font-style: italic;
+        }
+
         /* --- Footer --- */
         footer {
             padding: 2rem;
@@ -329,6 +453,20 @@
             .story-slideshow {
                 width: 100%;
                 height: 50vh;
+            }
+            .modal-content {
+                padding: 2rem 1.5rem;
+                max-width: 90%;
+            }
+            .modal h3 {
+                font-size: 1.5rem;
+            }
+            .schedule-list-time {
+                min-width: 80px;
+                font-size: 0.9rem;
+            }
+            .schedule-list-event {
+                font-size: 0.95rem;
             }
         }
         
@@ -414,16 +552,17 @@
             <div class="locations-grid">
                 <div class="location-card">
                     <h3>La Cerimonia</h3>
-                    <span class="time">11:00</span>
-                    <p><a href="https://www.google.com/maps/place/Duomo+Concattedrale+di+San+Marco/@45.9543091,12.6583784,17z/data=!3m1!5s0x477964a52cead587:0x56e483e884339190!4m6!3m5!1s0x477964a52a32fd6f:0x90dc5a311793027b!8m2!3d45.9543091!4d12.6609533!16s%2Fg%2F121m2p1p?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoKLDEwMDc5MjA2OUgBUAM%3D" target="_blank" class="location-link">Duomo di Pordenone</a></p>
+                    <span class="time">15:00</span>
+                    <p><a href="https://www.google.com/maps/place/Duomo+Concattedrale+di+San+Marco/@45.9543091,12.6583784,17z/data=!3m1!5s0x477964a52cead587:0x56e483e884339190!4m6!3m5!1s0x477964a52a32fd6f:0x90dc5a311793027b!8m2!3d45.9543091!4d12.6609533!16s%2Fg%2F121m2p1p?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoKLDEwMDc5MjA2OUgBUAM%3D" target="_blank" class="location-link">Duomo Concattedrale di San Marco</a></p>
                     <p>Pordenone, Italia</p>
                 </div>
 
                 <div class="location-card">
                     <h3>Il Ricevimento</h3>
-                    <span class="time">17:00</span>
-                    <p><a href="https://www.google.com/maps/place/Castello+di+Buttrio/@46.0129645,13.3408047,17z/data=!3m1!4b1!4m6!3m5!1s0x477bb30077bc0a35:0xab214cc937ed43ec!8m2!3d46.0129645!4d13.3433796!16s%2Fg%2F11yhrv8lk5?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoKLDEwMDc5MjA2OUgBUAM%3D" target="_blank" class="location-link">Castello di Buttrio</a></p>
+                    <span class="time">17:30</span>
+                    <p><a href="https://www.google.com/maps/place/Castello+di+Buttrio/@46.0129645,13.3408047,17z/data=!3m1!4b1!4m6!3m5!1s0x477bb30077bc0a35:0xab214cc937ed43ec!8m2!3d46.0129645!4d13.3433796!16s%2Fg%2F11yhrv8lk5?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoKLDEwMDc5MjA2OUgBUAM%3D" target="_blank" class="location-link">Castello di Buttrio - exclusive country house</a></p>
                     <p>Udine, Italia</p>
+                    <a href="#" class="programma-link" onclick="event.preventDefault(); openModal();">Programma</a>
                 </div>
             </div>
         </section>
@@ -432,6 +571,32 @@
             <p>Con amore, Luca e Veronica</p>
         </footer>
 
+    </div>
+
+    <!-- Modal for Programma -->
+    <div id="programmaModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <h3>Programma del Ricevimento</h3>
+            <ul class="schedule-list">
+                <li class="schedule-list-item">
+                    <span class="schedule-list-time">Ore 17.30</span>
+                    <span class="schedule-list-event">Aperitivo</span>
+                </li>
+                <li class="schedule-list-item">
+                    <span class="schedule-list-time">Ore 20.00</span>
+                    <span class="schedule-list-event">Cena</span>
+                </li>
+                <li class="schedule-list-item">
+                    <span class="schedule-list-time">Ore 22.30</span>
+                    <span class="schedule-list-event">Taglio della torta</span>
+                </li>
+                <li class="schedule-list-item">
+                    <span class="schedule-list-time">Ore 23.30</span>
+                    <span class="schedule-list-event">Party</span>
+                </li>
+            </ul>
+        </div>
     </div>
 
     <script>
@@ -545,6 +710,34 @@
                 setInterval(showNext, 3000);
             }
         };
+
+        // --- MODAL FUNCTIONS ---
+        const openModal = () => {
+            const modal = document.getElementById('programmaModal');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        };
+
+        const closeModal = () => {
+            const modal = document.getElementById('programmaModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = ''; // Restore scrolling
+        };
+
+        // Close modal when clicking outside the content
+        window.onclick = (event) => {
+            const modal = document.getElementById('programmaModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        };
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
 
         // Initialize
         initScrollObserver();
