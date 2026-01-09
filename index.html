@@ -458,42 +458,47 @@
             const heroSection = document.querySelector('.hero');
             const video = videoBackground.querySelector('video');
             
-            // Force play on mobile devices
-            const playVideo = async () => {
-                try {
-                    await video.play();
-                    // Hide controls after successful play
-                    video.controls = false;
-                } catch (error) {
-                    // If autoplay fails, try again on first user interaction
-                    const tryPlayOnInteraction = () => {
-                        video.play().then(() => {
-                            video.controls = false;
-                            document.removeEventListener('touchstart', tryPlayOnInteraction);
-                            document.removeEventListener('click', tryPlayOnInteraction);
-                        }).catch(() => {});
-                    };
-                    document.addEventListener('touchstart', tryPlayOnInteraction, { once: true });
-                    document.addEventListener('click', tryPlayOnInteraction, { once: true });
-                }
-            };
+            // Only handle video playback on desktop (mobile uses GIF which autoplays automatically)
+            if (video && window.innerWidth > 768) {
+                // Force play on desktop
+                const playVideo = async () => {
+                    try {
+                        await video.play();
+                        // Hide controls after successful play
+                        video.controls = false;
+                    } catch (error) {
+                        // If autoplay fails, try again on first user interaction
+                        const tryPlayOnInteraction = () => {
+                            video.play().then(() => {
+                                video.controls = false;
+                                document.removeEventListener('touchstart', tryPlayOnInteraction);
+                                document.removeEventListener('click', tryPlayOnInteraction);
+                            }).catch(() => {});
+                        };
+                        document.addEventListener('touchstart', tryPlayOnInteraction, { once: true });
+                        document.addEventListener('click', tryPlayOnInteraction, { once: true });
+                    }
+                };
 
-            // Try to play immediately
-            playVideo();
+                // Try to play immediately
+                playVideo();
 
-            // Also try when page becomes visible (handles tab switching)
-            document.addEventListener('visibilitychange', () => {
-                if (!document.hidden && video.paused) {
-                    playVideo();
-                }
-            });
+                // Also try when page becomes visible (handles tab switching)
+                document.addEventListener('visibilitychange', () => {
+                    if (!document.hidden && video.paused) {
+                        playVideo();
+                    }
+                });
+            }
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         videoBackground.classList.remove('hidden');
-                        // Try to play when hero section is visible
-                        playVideo();
+                        // Try to play when hero section is visible (desktop only)
+                        if (video && window.innerWidth > 768 && !video.paused) {
+                            video.play().catch(() => {});
+                        }
                     } else {
                         videoBackground.classList.add('hidden');
                     }
