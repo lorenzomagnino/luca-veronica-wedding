@@ -63,6 +63,19 @@
             display: block;
         }
 
+        /* Hide video controls on mobile */
+        #video-background video::-webkit-media-controls {
+            display: none !important;
+        }
+
+        #video-background video::-webkit-media-controls-enclosure {
+            display: none !important;
+        }
+
+        #video-background video::-webkit-media-controls-play-button {
+            display: none !important;
+        }
+
         /* --- Layout & Typography --- */
         .container {
             max-width: 900px;
@@ -310,7 +323,7 @@
 <body>
 
     <div id="video-background">
-        <video autoplay loop muted playsinline>
+        <video autoplay loop muted playsinline webkit-playsinline>
             <source src="background2.mp4" type="video/mp4">
         </video>
     </div>
@@ -411,11 +424,44 @@
         const initVideoVisibility = () => {
             const videoBackground = document.getElementById('video-background');
             const heroSection = document.querySelector('.hero');
+            const video = videoBackground.querySelector('video');
             
+            // Force play on mobile devices
+            const playVideo = async () => {
+                try {
+                    await video.play();
+                    // Hide controls after successful play
+                    video.controls = false;
+                } catch (error) {
+                    // If autoplay fails, try again on first user interaction
+                    const tryPlayOnInteraction = () => {
+                        video.play().then(() => {
+                            video.controls = false;
+                            document.removeEventListener('touchstart', tryPlayOnInteraction);
+                            document.removeEventListener('click', tryPlayOnInteraction);
+                        }).catch(() => {});
+                    };
+                    document.addEventListener('touchstart', tryPlayOnInteraction, { once: true });
+                    document.addEventListener('click', tryPlayOnInteraction, { once: true });
+                }
+            };
+
+            // Try to play immediately
+            playVideo();
+
+            // Also try when page becomes visible (handles tab switching)
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden && video.paused) {
+                    playVideo();
+                }
+            });
+
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         videoBackground.classList.remove('hidden');
+                        // Try to play when hero section is visible
+                        playVideo();
                     } else {
                         videoBackground.classList.add('hidden');
                     }
