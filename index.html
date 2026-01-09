@@ -1,15 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luca & Veronica | The Wedding</title>
+    <title>Luca & Veronica | Il Matrimonio</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <style>
         :root {
@@ -35,16 +33,34 @@
             line-height: 1.6;
         }
 
-        /* --- 3D Canvas Background --- */
-        #canvas-container {
+        /* --- Video Background (only in hero section) --- */
+        #video-background {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
+            width: 100vw;
             height: 100vh;
             z-index: -1;
-            /* No opacity needed here, we handle transparency in Three.js for a cleaner look */
             pointer-events: none;
+            overflow: hidden;
+            transition: opacity 0.5s ease;
+            margin: 0;
+            padding: 0;
+        }
+
+        #video-background.hidden {
+            opacity: 0;
+        }
+
+        #video-background video {
+            width: 100vw;
+            height: 100vh;
+            min-width: 100%;
+            min-height: 100%;
+            object-fit: cover;
+            object-position: center;
+            opacity: 0.6; /* Adjust opacity to your preference */
+            display: block;
         }
 
         /* --- Layout & Typography --- */
@@ -92,12 +108,17 @@
         /* --- Hero Section --- */
         .hero {
             height: 100vh;
+            position: relative;
         }
 
         .hero h1 {
             font-size: 4rem;
             margin-bottom: 0.5rem;
             line-height: 1;
+            position: relative;
+            z-index: 1;
+            color: #2C2C2C;
+            font-weight: 400;
         }
 
         .hero h1 span {
@@ -105,18 +126,23 @@
             font-size: 1.5rem;
             font-family: var(--font-sans);
             margin: 1rem 0;
-            color: var(--accent-color);
+            color: #B8941F;
             letter-spacing: 0.3em;
+            font-weight: 400;
         }
 
         .hero .date {
             font-family: var(--font-sans);
             font-size: 1.1rem;
             margin-top: 2rem;
-            border-top: 1px solid var(--accent-color);
-            border-bottom: 1px solid var(--accent-color);
+            border-top: 1px solid #B8941F;
+            border-bottom: 1px solid #B8941F;
             padding: 10px 20px;
             display: inline-block;
+            position: relative;
+            z-index: 1;
+            color: #2C2C2C;
+            font-weight: 600;
         }
 
         /* --- Story Section --- */
@@ -172,19 +198,18 @@
             margin-bottom: 0.5rem;
         }
 
-        /* Map Placeholder Style */
-        .map-frame {
-            width: 100%;
-            height: 200px;
-            background-color: var(--secondary-bg);
-            margin-top: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #999;
-            font-family: var(--font-sans);
-            font-size: 0.8rem;
-            border: none;
+        .location-link {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 400;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.6);
+            padding-bottom: 2px;
+        }
+
+        .location-link:hover {
+            color: var(--accent-color);
+            border-bottom: 1px solid var(--accent-color);
         }
 
         /* --- Footer --- */
@@ -224,177 +249,79 @@
 </head>
 <body>
 
-    <div id="canvas-container"></div>
+    <div id="video-background">
+        <video autoplay loop muted playsinline>
+            <source src="background.mp4" type="video/mp4">
+        </video>
+    </div>
 
     <div class="container">
         
         <section class="section hero visible">
             <h1>
                 Luca <span style="display:inline; font-family:inherit; color:inherit; font-size:inherit; margin:0;">&</span> Veronica
-                <span>THE WEDDING</span>
             </h1>
-            <div class="date">SEPTEMBER 14, 2024</div>
+            <div class="date">13 GIUGNO 2026</div>
             <div class="scroll-down">↓</div>
         </section>
 
         <section class="section story">
             <div class="story-content">
-                <h2>Our Story</h2>
+                <h2>La Nostra Storia</h2>
                 <p>
-                    It started with a chance encounter in a crowded café in Florence. Luca dropped his sketchbook; Veronica picked it up. What began as a conversation about art turned into a journey of a lifetime.
+                    Provare a raccontare chi siamo in poche righe non è così semplice.. probabilmente lo farebbe meglio ognuno di voi a modo suo.
                 </p>
                 <p>
-                    Five years, countless trains, and a thousand espressos later, we are ready to turn the page to our next chapter. We invite you to join us where the hills meet the sky to celebrate love, friendship, and the future.
+                    Ci siamo conosciuti circa cinque anni fa nel periodo tra Natale e Capodanno grazie alle nostre splendide amicizie e grazie ad uno strano destino professionale che ci ha portati vicini nel momento giusto.                     Pordenone per noi é casa, é il nostro inizio, le nostre prime volte e i nostri primi sogni.
+
+                </p>
+                <p>
+                    Poi é arrivata Modena, quell'ostacolo che all'inizio ci é sembrato insormontabile e che oggi invece é custode del nostro amore e di tutto quello che insieme abbiamo costruito.
+                </p>
+                <p>
+                    Il 23 febbraio 2025, quasi a sorpresa, é arrivata la proposta di matrimonio e le emozioni provate in quei momenti e quel giorno ci rimarranno addosso per sempre.
+                </p>
+                <p>
+                    Ora siamo pronti, con l'aiuto e l'amore delle persone che ci sono vicine, a compiere un altro piccolo grande passo insieme.                     Non vediamo l'ora di celebrare e festeggiare insieme a voi quel sentimento per cui noi ogni giorno ci sentiamo fortunati!
+
+                </p>
+                <p>
+                    A prestissimo
+                </p>
+                <p>
+                    Luca e Veronica
                 </p>
             </div>
         </section>
 
         <section class="section details">
-            <h2>The Celebration</h2>
-            <p>Please join us for the ceremony and reception.</p>
+            <h2>La Celebrazione</h2>
+            <p>Vi invitiamo a unirvi a noi per la cerimonia e il ricevimento.</p>
             
             <div class="locations-grid">
                 <div class="location-card">
-                    <h3>The Ceremony</h3>
-                    <span class="time">11:00 AM</span>
-                    <p>Basilica di San Miniato</p>
-                    <p>Via delle Porte Sante, 34<br>Florence, Italy</p>
-                    <iframe 
-                        class="map-frame"
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2881.9360274776856!2d11.2625!3d43.7595!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x132a540d277d3291%3A0x7c49337035656517!2sBasilica%20di%20San%20Miniato%20al%20Monte!5e0!3m2!1sen!2sit!4v1620000000000!5m2!1sen!2sit" 
-                        loading="lazy">
-                    </iframe>
+                    <h3>La Cerimonia</h3>
+                    <span class="time">11:00</span>
+                    <p><a href="https://www.google.com/maps/place/Duomo+Concattedrale+di+San+Marco/@45.9543091,12.6583784,17z/data=!3m1!5s0x477964a52cead587:0x56e483e884339190!4m6!3m5!1s0x477964a52a32fd6f:0x90dc5a311793027b!8m2!3d45.9543091!4d12.6609533!16s%2Fg%2F121m2p1p?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoKLDEwMDc5MjA2OUgBUAM%3D" target="_blank" class="location-link">Duomo di Pordenone</a></p>
+                    <p>Pordenone, Italia</p>
                 </div>
 
                 <div class="location-card">
-                    <h3>The Reception</h3>
-                    <span class="time">05:00 PM</span>
-                    <p>Castello di Vincigliata</p>
-                    <p>Via Vincigliata, 21<br>Fiesole, Italy</p>
-                    <iframe 
-                        class="map-frame"
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2880.605483!2d11.31!3d43.78!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x132a546055555555%3A0x123456789!2sCastello%20di%20Vincigliata!5e0!3m2!1sen!2sit!4v1620000000000!5m2!1sen!2sit" 
-                        loading="lazy">
-                    </iframe>
+                    <h3>Il Ricevimento</h3>
+                    <span class="time">17:00</span>
+                    <p><a href="https://www.google.com/maps/place/Castello+di+Buttrio/@46.0129645,13.3408047,17z/data=!3m1!4b1!4m6!3m5!1s0x477bb30077bc0a35:0xab214cc937ed43ec!8m2!3d46.0129645!4d13.3433796!16s%2Fg%2F11yhrv8lk5?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoKLDEwMDc5MjA2OUgBUAM%3D" target="_blank" class="location-link">Castello di Buttrio</a></p>
+                    <p>Buttrio, Italia</p>
                 </div>
             </div>
         </section>
         
         <footer>
-            <p>With love, Luca & Veronica</p>
+            <p>Con amore, Luca e Veronica</p>
         </footer>
 
     </div>
 
     <script>
-        // --- 3D SCENE SETUP ---
-        const initThreeJS = () => {
-            const container = document.getElementById('canvas-container');
-            const scene = new THREE.Scene();
-            
-            // Background Color matching the CSS var
-            scene.background = new THREE.Color(0xF9F7F2);
-            // Fog to fade particles into the background
-            scene.fog = new THREE.FogExp2(0xF9F7F2, 0.05);
-
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-            
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
-            container.appendChild(renderer.domElement);
-
-            // --- OBJECTS ---
-            
-            // 1. The Wireframe Icosahedron (Geometric Sphere)
-            // A simple, modern shape to represent unity and complexity
-            const geometry = new THREE.IcosahedronGeometry(3.5, 1);
-            
-            const material = new THREE.MeshBasicMaterial({ 
-                color: 0xD4AF37, // Gold
-                wireframe: true,
-                transparent: true,
-                opacity: 0.15 // Very subtle, just a hint
-            });
-
-            const sphere = new THREE.Mesh(geometry, material);
-            scene.add(sphere);
-
-            // 2. Floating Particles
-            // Creates a magical, airy atmosphere
-            const particlesGeometry = new THREE.BufferGeometry();
-            const particlesCount = 500;
-            const posArray = new Float32Array(particlesCount * 3);
-
-            for(let i = 0; i < particlesCount * 3; i++) {
-                // Random positions centered around 0, spread out
-                posArray[i] = (Math.random() - 0.5) * 25; 
-            }
-
-            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-
-            const particlesMaterial = new THREE.PointsMaterial({
-                size: 0.03,
-                color: 0x4A4A4A, // Dark Charcoal particles
-                transparent: true,
-                opacity: 0.4
-            });
-
-            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-            scene.add(particlesMesh);
-
-            camera.position.z = 6;
-
-            // --- ANIMATION & INTERACTION ---
-
-            let mouseX = 0;
-            let mouseY = 0;
-            let targetX = 0;
-            let targetY = 0;
-
-            const windowHalfX = window.innerWidth / 2;
-            const windowHalfY = window.innerHeight / 2;
-
-            document.addEventListener('mousemove', (event) => {
-                mouseX = (event.clientX - windowHalfX) * 0.001;
-                mouseY = (event.clientY - windowHalfY) * 0.001;
-            });
-
-            const animate = () => {
-                requestAnimationFrame(animate);
-
-                targetX = mouseX * 0.5;
-                targetY = mouseY * 0.5;
-
-                // Sphere rotation (constant slow spin + mouse influence)
-                sphere.rotation.y += 0.002;
-                sphere.rotation.x += 0.001;
-                
-                // Tilt sphere gently based on mouse
-                sphere.rotation.y += 0.05 * (targetX - sphere.rotation.y);
-                sphere.rotation.x += 0.05 * (targetY - sphere.rotation.x);
-
-                // Particles rotation (very slow, opposite direction)
-                particlesMesh.rotation.y = -mouseX * 0.2;
-                particlesMesh.rotation.x = -mouseY * 0.2;
-                
-                // Gentle breathing effect for particles
-                const time = Date.now() * 0.0005;
-                particlesMesh.position.y = Math.sin(time) * 0.2;
-
-                renderer.render(scene, camera);
-            };
-
-            animate();
-
-            // Resize Handler
-            window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            });
-        };
-
         // --- SCROLL ANIMATION OBSERVER ---
         const initScrollObserver = () => {
             const sections = document.querySelectorAll('.section');
@@ -412,10 +339,27 @@
             });
         };
 
-        // Initialize
-        initThreeJS();
-        initScrollObserver();
+        // --- VIDEO BACKGROUND VISIBILITY ---
+        const initVideoVisibility = () => {
+            const videoBackground = document.getElementById('video-background');
+            const heroSection = document.querySelector('.hero');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        videoBackground.classList.remove('hidden');
+                    } else {
+                        videoBackground.classList.add('hidden');
+                    }
+                });
+            }, { threshold: 0 });
 
+            observer.observe(heroSection);
+        };
+
+        // Initialize
+        initScrollObserver();
+        initVideoVisibility();
     </script>
 </body>
 </html>
