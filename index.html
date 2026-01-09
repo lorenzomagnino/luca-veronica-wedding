@@ -63,6 +63,17 @@
             display: block;
         }
 
+        #video-background img {
+            width: 100vw;
+            height: 100vh;
+            min-width: 100%;
+            min-height: 100%;
+            object-fit: cover;
+            object-position: center;
+            opacity: 1;
+            display: block;
+        }
+
         /* Hide video controls on mobile */
         #video-background video::-webkit-media-controls {
             display: none !important;
@@ -74,6 +85,26 @@
 
         #video-background video::-webkit-media-controls-play-button {
             display: none !important;
+        }
+
+        /* Mobile: Show GIF, Hide Video */
+        @media (max-width: 768px) {
+            #video-background video {
+                display: none;
+            }
+            #video-background img {
+                display: block;
+            }
+        }
+
+        /* Desktop: Show Video, Hide GIF */
+        @media (min-width: 769px) {
+            #video-background video {
+                display: block;
+            }
+            #video-background img {
+                display: none;
+            }
         }
 
         /* --- Layout & Typography --- */
@@ -326,6 +357,7 @@
         <video autoplay loop muted playsinline webkit-playsinline>
             <source src="background2.mp4" type="video/mp4">
         </video>
+        <img src="background2.gif" alt="Background animation">
     </div>
 
     <div class="container">
