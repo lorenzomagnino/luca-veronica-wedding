@@ -631,6 +631,21 @@
             padding-bottom: 1rem;
             font-weight: 400;
             text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .transport-accommodation-icon {
+            width: 22px;
+            height: 22px;
+            flex-shrink: 0;
+            stroke: var(--accent-color);
+            fill: none;
+            stroke-width: 1.3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            opacity: 0.85;
         }
 
         .transport-accommodation-text {
@@ -710,6 +725,10 @@
             }
             .transport-accommodation-block h3 {
                 font-size: 1.1rem;
+            }
+            .transport-accommodation-icon {
+                width: 20px;
+                height: 20px;
             }
             .transport-accommodation-text {
                 font-size: 0.9rem;
@@ -832,7 +851,12 @@
             </div>
 
             <div class="transport-accommodation-block">
-                <h3>Info su trasporti/alloggi</h3>
+                <h3>
+                    <svg class="transport-accommodation-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 20V8l8-4 8 4v12M4 20h16"/>
+                    </svg>
+                    Info su trasporti/alloggi
+                </h3>
                 <p class="transport-accommodation-text">
                     Per chi di voi vorrà per comodità evitare di guidare metteremo a disposizione un pulmino/corriera per il tragitto chiesa-location dopo la celebrazione e per il percorso inverso al termine del ricevimento.
                 </p>
