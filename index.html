@@ -429,6 +429,226 @@
             font-style: italic;
         }
 
+        /* --- Confirmation Block --- */
+        .confirmation-block {
+            margin-top: 3rem;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .confirmation-checkbox-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-family: var(--font-serif);
+            font-size: 1.1rem;
+            color: var(--text-color);
+            user-select: none;
+            padding: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .confirmation-checkbox-label:hover {
+            color: var(--accent-color);
+        }
+
+        .confirmation-checkbox-label input[type="checkbox"] {
+            display: none;
+        }
+
+        .checkmark {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--accent-color);
+            border-radius: 3px;
+            margin-right: 12px;
+            position: relative;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .confirmation-checkbox-label:hover .checkmark {
+            border-color: var(--accent-color);
+            background-color: rgba(212, 175, 55, 0.1);
+        }
+
+        .confirmation-checkbox-label input[type="checkbox"]:checked + .checkmark {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .confirmation-checkbox-label input[type="checkbox"]:checked + .checkmark::after {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 3px;
+            width: 6px;
+            height: 12px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .confirmation-text {
+            font-weight: 400;
+            letter-spacing: 0.05em;
+        }
+
+        /* --- Form Modal --- */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+            font-weight: 400;
+        }
+
+        .form-group input[type="text"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--secondary-bg);
+            border-radius: 3px;
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            color: var(--text-color);
+            background-color: white;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .form-group input[type="text"]::placeholder,
+        .form-group textarea::placeholder {
+            color: #999;
+            font-style: italic;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--accent-color);
+            border: none;
+            border-radius: 3px;
+            color: white;
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .form-submit:hover {
+            background: rgba(212, 175, 55, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-submit:active {
+            transform: translateY(0);
+        }
+
+        /* --- Gift Block --- */
+        .gift-block {
+            margin-top: 4rem;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            background: white;
+            padding: 2.5rem;
+            border: 1px solid var(--secondary-bg);
+            text-align: center;
+        }
+
+        .gift-block h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--secondary-bg);
+            padding-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        .gift-text {
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .iban-text {
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            color: var(--text-color);
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--secondary-bg);
+        }
+
+        .iban-text strong {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        #iban-placeholder {
+            color: #999;
+            font-style: italic;
+        }
+
+        /* --- Transport & Accommodation Block --- */
+        .transport-accommodation-block {
+            margin-top: 4rem;
+            width: 100%;
+            padding: 3rem 0;
+            text-align: left;
+        }
+
+        .transport-accommodation-block h3 {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--secondary-bg);
+            padding-bottom: 1rem;
+            font-weight: 400;
+            text-align: left;
+        }
+
+        .transport-accommodation-text {
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .accommodations-list {
+            margin-top: 2.5rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--secondary-bg);
+        }
+
         /* --- Footer --- */
         footer {
             padding: 2rem;
@@ -467,6 +687,32 @@
             }
             .schedule-list-event {
                 font-size: 0.95rem;
+            }
+            .confirmation-checkbox-label {
+                font-size: 1rem;
+            }
+            .confirmation-text {
+                font-size: 0.95rem;
+            }
+            .gift-block {
+                padding: 2rem 1.5rem;
+                margin-top: 3rem;
+            }
+            .gift-block h3 {
+                font-size: 1.3rem;
+            }
+            .gift-text {
+                font-size: 0.9rem;
+            }
+            .transport-accommodation-block {
+                padding: 2rem 1.5rem;
+                margin-top: 3rem;
+            }
+            .transport-accommodation-block h3 {
+                font-size: 1.1rem;
+            }
+            .transport-accommodation-text {
+                font-size: 0.9rem;
             }
         }
         
@@ -565,6 +811,38 @@
                     <a href="#" class="programma-link" onclick="event.preventDefault(); openModal();">Programma</a>
                 </div>
             </div>
+
+            <div class="confirmation-block">
+                <label class="confirmation-checkbox-label">
+                    <input type="checkbox" id="confirmPresence" onchange="handleConfirmationChange()">
+                    <span class="checkmark"></span>
+                    <span class="confirmation-text">Conferma la presenza al Matrimonio</span>
+                </label>
+            </div>
+
+            <div class="gift-block">
+                <h3>Regalo di Nozze</h3>
+                <p class="gift-text">
+                    Il regalo più bello sarà avervi con noi a festeggiare questo giorno speciale.<br>
+                    Se però desiderate farci un pensiero, un contributo per il nostro viaggio di nozze sarà davvero gradito: ci aiuterà a scoprire un nuovo angolo di mondo insieme, il primo da marito e moglie.
+                </p>
+                <p class="iban-text">
+                    <strong>IBAN:</strong> <span id="iban-placeholder">[IBAN da aggiungere]</span>
+                </p>
+            </div>
+
+            <div class="transport-accommodation-block">
+                <h3>Info su trasporti/alloggi</h3>
+                <p class="transport-accommodation-text">
+                    Per chi di voi vorrà per comodità evitare di guidare metteremo a disposizione un pulmino/corriera per il tragitto chiesa-location dopo la celebrazione e per il percorso inverso al termine del ricevimento.
+                </p>
+                <p class="transport-accommodation-text">
+                    Per chi desidera invece fermarsi a dormire in location o comunque nelle vicinanze vi lasciamo qui sotto alcuni alloggi consigliati.
+                </p>
+                <div id="accommodations-list" class="accommodations-list">
+                    <!-- Accommodations will be added here later -->
+                </div>
+            </div>
         </section>
         
         <footer>
@@ -596,6 +874,38 @@
                     <span class="schedule-list-event">Party</span>
                 </li>
             </ul>
+        </div>
+    </div>
+
+    <!-- Modal for Confirmation Form -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeConfirmationModal()">&times;</button>
+            <h3>Conferma Presenza</h3>
+            <form id="confirmationForm" onsubmit="handleFormSubmit(event)">
+                <div class="form-group">
+                    <label for="nome">Nome</label>
+                    <input type="text" id="nome" name="nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="cognome">Cognome</label>
+                    <input type="text" id="cognome" name="cognome" required>
+                </div>
+                <div class="form-group">
+                    <label for="menu">Menu</label>
+                    <select id="menu" name="menu" required>
+                        <option value="">Seleziona un'opzione</option>
+                        <option value="Classico">Classico</option>
+                        <option value="Vegetariano">Vegetariano</option>
+                        <option value="Vegano">Vegano</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="specifiche">Specifiche</label>
+                    <textarea id="specifiche" name="specifiche" placeholder="Intolleranze/Allergie"></textarea>
+                </div>
+                <button type="submit" class="form-submit">Conferma</button>
+            </form>
         </div>
     </div>
 
@@ -724,11 +1034,64 @@
             document.body.style.overflow = ''; // Restore scrolling
         };
 
+        // --- CONFIRMATION MODAL FUNCTIONS ---
+        const openConfirmationModal = () => {
+            const modal = document.getElementById('confirmationModal');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+
+        const closeConfirmationModal = () => {
+            const modal = document.getElementById('confirmationModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            // Reset form
+            document.getElementById('confirmationForm').reset();
+        };
+
+        const handleConfirmationChange = () => {
+            const checkbox = document.getElementById('confirmPresence');
+            if (checkbox.checked) {
+                openConfirmationModal();
+            } else {
+                closeConfirmationModal();
+            }
+        };
+
+        const handleFormSubmit = (event) => {
+            event.preventDefault();
+            
+            // Get form data
+            const formData = {
+                nome: document.getElementById('nome').value,
+                cognome: document.getElementById('cognome').value,
+                menu: document.getElementById('menu').value,
+                specifiche: document.getElementById('specifiche').value
+            };
+
+            // TODO: Connect to Supabase database here
+            console.log('Form data:', formData);
+            
+            // For now, just show an alert and close the modal
+            alert('Grazie per la conferma! I tuoi dati sono stati registrati.');
+            closeConfirmationModal();
+            
+            // Keep checkbox checked
+            document.getElementById('confirmPresence').checked = true;
+        };
+
         // Close modal when clicking outside the content
         window.onclick = (event) => {
-            const modal = document.getElementById('programmaModal');
-            if (event.target === modal) {
+            const programmaModal = document.getElementById('programmaModal');
+            const confirmationModal = document.getElementById('confirmationModal');
+            
+            if (event.target === programmaModal) {
                 closeModal();
+            }
+            if (event.target === confirmationModal) {
+                closeConfirmationModal();
+                // Uncheck the checkbox if modal is closed by clicking outside
+                document.getElementById('confirmPresence').checked = false;
             }
         };
 
@@ -736,6 +1099,9 @@
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape') {
                 closeModal();
+                closeConfirmationModal();
+                // Uncheck the checkbox if modal is closed with Escape
+                document.getElementById('confirmPresence').checked = false;
             }
         });
 
