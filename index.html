@@ -1202,26 +1202,50 @@
             }
         };
 
-        const handleFormSubmit = (event) => {
+        const handleFormSubmit = async (event) => {
             event.preventDefault();
             
-            // Get form data
+            const form = event.target;
+            const submitButton = form.querySelector('.form-submit');
+            const originalButtonText = submitButton.textContent;
+            
+            // Show loading state
+            submitButton.textContent = 'Invio in corso...';
+            submitButton.disabled = true;
+            
+            // Get form data as JSON
             const formData = {
                 nome: document.getElementById('nome').value,
                 cognome: document.getElementById('cognome').value,
                 menu: document.getElementById('menu').value,
                 specifiche: document.getElementById('specifiche').value
             };
-
-            // TODO: Connect to Supabase database here
-            console.log('Form data:', formData);
             
-            // For now, just show an alert and close the modal
-            alert('Grazie per la conferma! I tuoi dati sono stati registrati.');
-            closeConfirmationModal();
-            
-            // Keep checkbox checked
-            document.getElementById('confirmPresence').checked = true;
+            try {
+                const response = await fetch('https://script.google.com/macros/s/AKfycbziomFTAh2P2Bg2c4tM3RJEuRN6pmPS_gUOEAB1Z6vjJsOuT64pRSOKfGxfwz579RGH/exec', {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                // With no-cors mode, we can't read the response, but if no error was thrown, it likely succeeded
+                alert('Grazie per la conferma! I tuoi dati sono stati registrati.');
+                closeConfirmationModal();
+                document.getElementById('confirmPresence').checked = true;
+                form.reset();
+                
+            } catch (error) {
+                // Network error
+                console.error('Error:', error);
+                alert('Errore di connessione. Verifica la tua connessione internet e riprova.');
+            } finally {
+                // Reset button state
+                submitButton.textContent = originalButtonText;
+                submitButton.disabled = false;
+            }
         };
 
         // Close modal when clicking outside the content
